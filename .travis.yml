@@ -1,0 +1,35 @@
+language: generic
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t ankurvr/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true ankurvr/react-test npm run test
+
+after_success:
+    - docker build -t ankurvr/multi-client ./client
+    - docker build -t ankurvr/multi-server ./server
+    - docker build -t ankurvr/multi-nginx ./nginx
+    - docker build -t ankurvr/multi-worker ./worker
+    # Login to docker cli
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Push built images to docker hub
+    - docker push ankurvr/multi-client
+    - docker push ankurvr/multi-server
+    - docker push ankurvr/multi-nginx
+    - docker push ankurvr/multi-worker
+
+deploy:
+    provider: elasticbeanstalk
+    region: "eu-central-1"
+    app: "docker-react"
+    env: "DockerReact-env"
+    bucket_name: "elasticbeanstalk-eu-central-1-501556701111"
+    bucket_path: "docker-react"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
