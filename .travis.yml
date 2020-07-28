@@ -21,3 +21,16 @@ after_success:
     - docker push ankurvr/multi-server
     - docker push ankurvr/multi-nginx
     - docker push ankurvr/multi-worker
+
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: eu-central-1
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-eu-central-1-501556701111
+    bucket_path: docker-multi
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
