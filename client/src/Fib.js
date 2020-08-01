@@ -38,6 +38,7 @@ class Fib extends Component {
     try {
       return this.state.seenIndexes.map(({ number }) => number).join(', ');
     } catch(e) {
+      return "";
       console.log(e);
     }
   }
