@@ -38,8 +38,9 @@ class Fib extends Component {
     try {
       return this.state.seenIndexes.map(({ number }) => number).join(', ');
     } catch(e) {
-      return "";
+      console.log("Error in renderSeenIndexes");
       console.log(e);
+      return "";
     }
   }
 
@@ -55,6 +56,7 @@ class Fib extends Component {
         );
       }
     } catch(e) {
+      console.log("Error in renderValues");
       console.log(e);
     }
     
