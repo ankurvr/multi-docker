@@ -40,7 +40,7 @@ class Fib extends Component {
     } catch(e) {
       console.log("Error in renderSeenIndexes");
       console.log(e);
-      return "";
+      return "F**k. It's not working.";
     }
   }
 
